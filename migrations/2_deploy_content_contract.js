@@ -36,8 +36,8 @@ module.exports = async function(deployer, network, accounts) {
     from: owner
   });
   const romeoFactory = await ContentContractFactory.deployed();
-  console.log(`ROMEO_FACTORY = ${romeoFactory.address}`);
-  console.log(`ROMEO_TOKEN = ${await romeoFactory.tokenAddress()}`);
+  console.log(`REACT_APP_ROMEO_FACTORY = ${romeoFactory.address}`);
+  console.log(`REACT_APP_ROMEO_TOKEN = ${await romeoFactory.tokenAddress()}`);
 
   await romeoFactory.deployContentContract(
     merchant,
@@ -54,7 +54,7 @@ module.exports = async function(deployer, network, accounts) {
   const romeoContract = await DigitalContentContract.at(
     contractAddressArrayRomeo[0]
   );
-  console.log(`ROMEO_CONTRACT = ${romeoContract.address}`);
+  console.log(`REACT_APP_ROMEO_CONTRACT = ${romeoContract.address}`);
 
   await romeoContract.setDeliverer(deliverer, {
     from: merchant
@@ -76,8 +76,8 @@ module.exports = async function(deployer, network, accounts) {
   });
   const hamletFactory = await ContentContractFactory.deployed();
 
-  console.log(`HAMLET_FACTORY = ${hamletFactory.address}`);
-  console.log(`HAMLET_TOKEN = ${await hamletFactory.tokenAddress()}`);
+  console.log(`REACT_APP_HAMLET_FACTORY = ${hamletFactory.address}`);
+  console.log(`REACT_APP_HAMLET_TOKEN = ${await hamletFactory.tokenAddress()}`);
 
   await hamletFactory.deployContentContract(
     merchant,
@@ -108,5 +108,5 @@ module.exports = async function(deployer, network, accounts) {
     from: merchant
   });
 
-  console.log(`HAMLET_CONTRACT = ${hametContract.address}`);
+  console.log(`REACT_APP_HAMLET_CONTRACT = ${hametContract.address}`);
 };
