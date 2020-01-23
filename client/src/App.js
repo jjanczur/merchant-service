@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 
+import { useHistory } from "react-router-dom";
 import logo from "./logo.png";
 import { Table } from "reactstrap";
 import { Button } from "reactstrap";
@@ -46,7 +46,6 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
 
       // Get the contract instance.
 
@@ -77,18 +76,12 @@ class App extends Component {
         process.env.REACT_APP_ROMEO_TOKEN
       );
 
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState(
         {
           web3,
           accounts,
-          contract: instance,
           _hamletContract,
           _hamletToken,
           _romeoContract,
@@ -109,7 +102,6 @@ class App extends Component {
     const {
       web3,
       accounts,
-      contract,
       _hamletContract,
       _hamletToken,
       _romeoContract,
@@ -129,25 +121,28 @@ class App extends Component {
 
     const hamletName = await _hamletToken.methods.name().call();
     const hamletPrice = await _hamletContract.methods.currentPrice().call();
+    const hamletHash = await _hamletContract.methods.dcHash().call();
+
     const hamletOwned = await _hamletToken.methods
       .balanceOf(publicAddress)
       .call();
 
     const romeoName = await _romeoToken.methods.name().call();
     const romeoPrice = await _romeoContract.methods.currentPrice().call();
+    const romeoHash = await _romeoContract.methods.dcHash().call();
     const romeoOwned = await _romeoToken.methods
       .balanceOf(publicAddress)
       .call();
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
 
     // Update state with the result.
     this.setState({
-      storageValue: response,
       hamletName,
+      hamletHash,
       hamletPrice,
       hamletOwned,
       romeoName,
+      romeoHash,
       romeoPrice,
       romeoOwned
     });
@@ -176,11 +171,13 @@ class App extends Component {
   }
 
   handleGetKeyHamlet = () => {
-    console.log("click2");
+    let path = `http://localhost:3000/`;
+    window.location.href = path;
   };
 
   handleGetContentHamlet = () => {
-    console.log("click3");
+    let path = `http://localhost:3000/`;
+    window.location.href = path;
   };
 
   handleBuyRomeo = async () => {
@@ -206,11 +203,15 @@ class App extends Component {
   };
 
   handleGetKeyRomeo = () => {
-    console.log("click5");
+    let path = `http://localhost:3000/`;
+    window.location.href = path;
   };
 
   handleGetContentRomeo = () => {
-    console.log("click6");
+    let path = `http://localhost:3000/`;
+    window.location.href = path;
+    // let history = useHistory();
+    // history.push(path);
   };
 
   render() {
@@ -228,6 +229,7 @@ class App extends Component {
           <thead>
             <tr>
               <th className="text-left">Available books</th>
+              <th className="text-left">Book hash [SHA-256]</th>
               <th className="text-right">Price [wei]</th>
               <th className="text-middle">Buy</th>
               <th className="text-middle">Get Key</th>
@@ -238,6 +240,7 @@ class App extends Component {
           <tbody>
             <tr>
               <th className="text-left">{this.state.hamletName}</th>
+              <th className="text-left">{this.state.hamletHash}</th>
               <th className="text-right">{this.state.hamletPrice}</th>
               <th className="text-middle">
                 <Button
@@ -266,6 +269,7 @@ class App extends Component {
             </tr>
             <tr>
               <th className="text-left">{this.state.romeoName}</th>
+              <th className="text-left">{this.state.romeoHash}</th>
               <th className="text-right">{this.state.romeoPrice}</th>
               <th className="text-middle">
                 <Button
