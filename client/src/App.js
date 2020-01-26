@@ -120,15 +120,19 @@ class App extends Component {
     const publicAddress = coinbase.toLowerCase();
 
     const hamletName = await _hamletToken.methods.name().call();
-    const hamletPrice = await _hamletContract.methods.currentPrice().call();
+    let hamletPrice = await _hamletContract.methods.currentPrice().call();
+    // hamletPrice = web3.utils.hexToNumber(hamletPrice);
     const hamletHash = await _hamletContract.methods.dcHash().call();
+    hamletPrice = web3.utils.fromWei(hamletPrice, "ether");
 
     const hamletOwned = await _hamletToken.methods
       .balanceOf(publicAddress)
       .call();
 
     const romeoName = await _romeoToken.methods.name().call();
-    const romeoPrice = await _romeoContract.methods.currentPrice().call();
+    let romeoPrice = await _romeoContract.methods.currentPrice().call();
+    // romeoPrice = web3.utils.hexToNumber(romeoPrice);
+    romeoPrice = web3.utils.fromWei(romeoPrice, "ether");
     const romeoHash = await _romeoContract.methods.dcHash().call();
     const romeoOwned = await _romeoToken.methods
       .balanceOf(publicAddress)
@@ -171,7 +175,7 @@ class App extends Component {
   }
 
   handleGetKeyHamlet = () => {
-    let path = `http://localhost:3000/`;
+    let path = `http://localhost:3002/`;
     window.location.href = path;
   };
 
@@ -203,7 +207,7 @@ class App extends Component {
   };
 
   handleGetKeyRomeo = () => {
-    let path = `http://localhost:3000/`;
+    let path = `http://localhost:3002/`;
     window.location.href = path;
   };
 
@@ -230,7 +234,7 @@ class App extends Component {
             <tr>
               <th className="text-left">Available books</th>
               <th className="text-left">Book hash [SHA-256]</th>
-              <th className="text-right">Price [wei]</th>
+              <th className="text-right">Price [ETH]</th>
               <th className="text-middle">Buy</th>
               <th className="text-middle">Get Key</th>
               <th className="text-middle">Get Book</th>
