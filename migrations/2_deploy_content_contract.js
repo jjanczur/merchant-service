@@ -22,14 +22,20 @@ module.exports = async function(deployer, network, accounts) {
 
   const [owner, ...otherAccounts] = accounts;
 
-  const creatorCompensation = 100000; // wei 1e5
-  const currentPrice = 1000000; // wei 1e6
+  const creatorCompensation = web3.utils.toHex(
+    web3.utils.toWei("0.5", "ether")
+  ); // wei 1e5
+  const currentPrice = web3.utils.toHex(web3.utils.toWei("1", "ether")); // wei 1e6
   const merchant = accounts[1];
 
   const deliverer = accounts[2];
-  const delivererCompensation = 100000; // wei 1e5
+  const delivererCompensation = web3.utils.toHex(
+    web3.utils.toWei("0.1", "ether")
+  ); // wei 1e5
   const keyAuthority = accounts[3];
-  const keyAuthorityCompensation = 100000; // wei 1e5
+  const keyAuthorityCompensation = web3.utils.toHex(
+    web3.utils.toWei("0.1", "ether")
+  ); // wei 1e5
 
   // Deploy Romeo & Julia
   await deployer.deploy(ContentContractFactory, _name, _symbol, _decimals, {
@@ -81,7 +87,7 @@ module.exports = async function(deployer, network, accounts) {
 
   await hamletFactory.deployContentContract(
     merchant,
-    ROMEO_AND_JULIET_HASH_SHA256,
+    HAMLET_HASH_SHA256,
     creatorCompensation,
     currentPrice,
     {
