@@ -13,7 +13,15 @@ https://www.youtube.com/watch?v=B4-gsvnvECI
 
 # Run
 
+```shell
+
+docker build -t merchant-service .
+docker run -d -p 3000:3000 merchant-service
 ```
+
+or
+
+```shell
 cd client
 npm run dev
 ```
