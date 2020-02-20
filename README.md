@@ -14,7 +14,7 @@ https://www.youtube.com/watch?v=B4-gsvnvECI
 # Run
 
 ```shell
-
+cd client
 docker build -t merchant-service .
 docker run -d -p 3000:3000 merchant-service
 ```
